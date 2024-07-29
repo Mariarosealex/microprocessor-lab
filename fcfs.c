@@ -1,10 +1,11 @@
 #include<stdio.h>
 void main()
 {
-  int choice,limit,n,time=0,completed=0;
+  int choice,limit,n,time=0,completed=0,f=1;
   printf("Enter the number of processes\n");
   scanf("%d",&limit);
-  int p[limit],bt[limit],wt[limit],tat[limit],rem[limit];
+  int p[limit],bt[limit],wt[limit],tat[limit],rem[limit],prt[30];
+  prt[0]=0;
    int temp,tq;
   int pr[limit];
   int tot_wt,tot_tat;
@@ -186,26 +187,45 @@ void main()
   }
   printf("Enter the time quantum\n");
   scanf("%d",&tq);
+ 
   while(completed<limit)
   {
    for(int i=0;i<limit;i++)
    {
+   if(rem[i]>0)
+   {
     if(rem[i]>tq)
     {
+     
      time=time+tq;
-     rem[i]=rem[i]+tq;
+     rem[i]=rem[i]-tq;
+     printf("  p%d\t",p[i]);
+     prt[f]=time;
+     f++;
     }
     else
     {
+    
     time=time+rem[i];
+    tat[i]=time;
     wt[i]=time-bt[i];
     rem[i]=0;
     completed++;
-    tat[i]=time;
+    printf("  p%d\t",p[i]);
+    prt[f]=time;
+     f++;
+    }
     }
    }
   }
-   printf("Process\tBt\tWt\tTat\n");
+  
+  
+  printf("\n");
+  for(int i=0;i<f;i++)
+  {
+   printf("%d\t",prt[i]);
+  }
+   printf("\nProcess\tBt\tWt\tTat\n");
    for(int i=0;i<limit;i++)
    {
     tot_wt+=wt[i];
